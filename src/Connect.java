@@ -1,4 +1,5 @@
 import java.sql.Connection;
+import java.sql.ResultSetMetaData;
 import java.sql.DriverManager;
 import java.sql.Driver;
 import java.sql.*;
@@ -7,6 +8,7 @@ public class Connect {
 	public Statement stmt; 
     public PreparedStatement preparedStatement;
     public ResultSet rs;
+    public ResultSetMetaData md;
     public Connection con;
     String query;
     
