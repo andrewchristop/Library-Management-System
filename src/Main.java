@@ -26,13 +26,14 @@ public class Main extends JFrame implements ActionListener, MouseListener {
 	JLabel search;
 	static JTextField tfSearch;
 	JButton searchBook;
+	JButton showAllBooks;
 	//Connect connect = new Connect();
 	public Main(){
 		
 		JFrame frm = new JFrame();
 		frm.pack();
 		frm.setLocationRelativeTo(null);
-        frm.setSize(300,100);
+        frm.setSize(300,150);
         frm.setTitle("Search for a book");
         frm.setDefaultCloseOperation(EXIT_ON_CLOSE);
         frm.setResizable(false);
@@ -49,6 +50,10 @@ public class Main extends JFrame implements ActionListener, MouseListener {
         query.add(searchBook);
         searchBook.addActionListener(this);
         
+        showAllBooks = new JButton("Show All Books");
+        query.add(showAllBooks);
+        showAllBooks.addActionListener(this);
+        
         frm.getContentPane().add(query);
 
         frm.setVisible(true);        
@@ -63,7 +68,14 @@ public class Main extends JFrame implements ActionListener, MouseListener {
 				JOptionPane.showMessageDialog(null,err);
 			}else {
 				AvailableBooks a1 = new AvailableBooks();
+				a1.queryBook();
 			}
+		}
+		
+		if(e.getSource().equals(showAllBooks)) {
+			//System.out.println("Btn input detected");
+			AvailableBooks a = new AvailableBooks();
+			a.showAllBooks();
 		}
 		
 	}
