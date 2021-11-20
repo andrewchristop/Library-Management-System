@@ -44,7 +44,7 @@ public class Connect {
     }
     
     public void searchBook(String name) {
-    	query = "SELECT * FROM books WHERE name= '"+name+"'";
+    	query = "SELECT * FROM books WHERE name LIKE '%"+name+"%'";
     	try {
     		executeQuery(query);
     	}catch(Exception e) {
@@ -56,6 +56,27 @@ public class Connect {
     	query = "SELECT * FROM books";
     	try {
     		executeQuery(query);
+    	}catch(Exception e) {
+    		e.printStackTrace();
+    	}
+    }
+    
+    public void deleteBook(String name) {
+    	query = "DELETE FROM books WHERE name = '"+name+"'";
+    	try {
+    		executeQuery(query);
+    		
+    	}catch(Exception e) {
+    		e.printStackTrace();
+    	}
+    }
+    
+    public void addBook(String name, String genre, String availability) {
+    	try {
+    		preparedStatement = con.prepareStatement("INSERT INTO books(name, genre, availability) VALUES(?,?,?)");
+    		preparedStatement.setString(1, name);
+    		preparedStatement.setString(2, genre);
+    		preparedStatement.setString(3, availability);
     	}catch(Exception e) {
     		e.printStackTrace();
     	}

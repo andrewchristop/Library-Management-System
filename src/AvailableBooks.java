@@ -26,7 +26,7 @@ public class AvailableBooks extends JFrame implements ActionListener {
 		//connect.showAll();
 		
 		try {
-			connect.showAll();
+			connect.searchBook(Main.tfSearch.getText());
 			bookList = new JTable();
 			bookList.setModel(DbUtils.resultSetToTableModel(connect.rs));
 			
@@ -39,9 +39,11 @@ public class AvailableBooks extends JFrame implements ActionListener {
 		bookList.setShowGrid(true);
 		bookList.setShowVerticalLines(true);
 		j = new JScrollPane(bookList);
+		j.setPreferredSize(new Dimension(950,600));
 		panel = new JPanel();
+		panel.setPreferredSize(new Dimension(800, 600));
 		panel.add(j);
-		panel.setBorder(new EmptyBorder(20,20,10,20));
+		//panel.setBorder(new EmptyBorder(20,20,10,20));
 		frm.add(panel);
 		frm.setVisible(true);
 				

@@ -67,6 +67,7 @@ public class Login extends JFrame implements ActionListener, MouseListener {
 		init();
 		setSize(800, 400);
 		setTitle("Public Library System");
+		setResizable(false);
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setVisible(true);

@@ -24,7 +24,7 @@ import java.awt.event.*;
 public class Main extends JFrame implements ActionListener, MouseListener {
 	JPanel query;
 	JLabel search;
-	JTextField tfSearch;
+	static JTextField tfSearch;
 	JButton searchBook;
 	//Connect connect = new Connect();
 	public Main(){
