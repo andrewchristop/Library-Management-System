@@ -82,4 +82,31 @@ public class Connect {
     	}
     }
     
+    public void checkPrivilege(String num) {
+    	query = "SELECT privilege FROM users WHERE id='"+num+"'";
+    	try {
+    		executeQuery(query);
+    	}catch(Exception e) {
+    		e.printStackTrace();
+    	}
+    }
+    
+    public void storeUsername(String username) {
+    	query = "SELECT username FROM users WHERE username= '"+username+"'";
+    	try {
+    		executeQuery(query);
+    	}catch(Exception e) {
+    		e.printStackTrace();
+    	}
+    }
+    
+    public void findID(String username) {
+    	query = "SELECT id FROM users WHERE username='"+username+"'";
+    	try {
+    		executeQuery(query);
+    	}catch(Exception e) {
+    		e.printStackTrace();
+    	}
+    }
+    
 }

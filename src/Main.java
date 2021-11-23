@@ -27,6 +27,7 @@ public class Main extends JFrame implements ActionListener, MouseListener {
 	static JTextField tfSearch;
 	JButton searchBook;
 	JButton showAllBooks;
+	JButton adminPanel;
 	//Connect connect = new Connect();
 	public Main(){
 		
@@ -54,6 +55,10 @@ public class Main extends JFrame implements ActionListener, MouseListener {
         query.add(showAllBooks);
         showAllBooks.addActionListener(this);
         
+        adminPanel = new JButton("Admin Panel");
+        query.add(adminPanel);
+        adminPanel.addActionListener(this);
+        
         frm.getContentPane().add(query);
 
         frm.setVisible(true);        
@@ -76,6 +81,16 @@ public class Main extends JFrame implements ActionListener, MouseListener {
 			//System.out.println("Btn input detected");
 			AvailableBooks a = new AvailableBooks();
 			a.showAllBooks();
+		}
+		
+		if(e.getSource().equals(adminPanel)) {
+			if(Login.privilege.equals("0")) {
+				String err = "Insufficient Privileges! Only Admins/Employees can access the admin panel!";
+				JOptionPane.showMessageDialog(null, err);
+			}else {
+				AdminPanel a = new AdminPanel();
+			}
+//			System.out.println("action recorded");
 		}
 		
 	}

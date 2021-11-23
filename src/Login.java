@@ -24,8 +24,13 @@ public class Login extends JFrame implements ActionListener, MouseListener {
 	JTextField tfUsername;
 	JButton btnLogin;
 	JPasswordField pfPassword;
+	static String username;
+	static String id;
+	static String privilege;
 
 	Connect connect = new Connect();
+	Connect c = new Connect();
+	Connect c1 = new Connect();
 
 	void init() {
 //		lblTitle = new JLabel("Welcome to the public library system", SwingConstants.CENTER);
@@ -95,6 +100,28 @@ public class Login extends JFrame implements ActionListener, MouseListener {
 								JOptionPane.WARNING_MESSAGE);
 					} else {
 						dispose();
+						String text = tfUsername.getText();
+						c.findID(text);
+						try {
+							while(c.rs.next()) {
+								id = c.rs.getString(1);
+							}
+						}catch(Exception d) {
+							d.printStackTrace();
+						}
+						
+						c1.checkPrivilege(id);
+						try {
+							while(c1.rs.next()) {
+								privilege = c1.rs.getString(1);
+							}
+						}catch(Exception e1) {
+							e1.printStackTrace();
+						}
+						
+//						System.out.println(id);
+//						System.out.println(privilege);
+						
 						Main main = new Main();
 						//System.out.println("you're in!");
 					}
