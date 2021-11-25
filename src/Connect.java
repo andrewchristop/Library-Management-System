@@ -77,6 +77,7 @@ public class Connect {
     		preparedStatement.setString(1, name);
     		preparedStatement.setString(2, genre);
     		preparedStatement.setString(3, availability);
+    		preparedStatement.executeUpdate();
     	}catch(Exception e) {
     		e.printStackTrace();
     	}
