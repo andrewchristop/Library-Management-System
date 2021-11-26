@@ -6,30 +6,52 @@ import java.awt.Font;
 public class AdminPanel extends JFrame implements ActionListener {
 	JFrame frm;
 	JFrame window;
+	JFrame delBook;
+	JFrame wAdd;
+	JFrame wRemove;
 	JTextField tf1;
 	JTextField tf2;
+	JTextField id;
+	JTextField addUser;
+	JPasswordField pwd;
 	JRadioButton available;
 	JRadioButton unavailable;
+	JRadioButton librarian;
+	JRadioButton user;
+	JRadioButton admin;
 	JPanel p;
+	JPanel panel1;
 	JLabel lbl;
 	JLabel lbl1;
 	JLabel lbl2;
 	JLabel lbl3;
+	JLabel idRemove;
+	JLabel username;
+	JLabel password;
+	JLabel adminPowers;
 	JPanel p1;
+	JPanel acct;
 	JButton b1;
 	JButton addBook;
 	JButton btn;
+	JButton deleteBook;
 	JButton removeBook;
 	JButton assignBook;
 	JButton returnBook;
 	JButton addAccount;
 	JButton removeAccount;
+	JButton acctAdd;
 	ButtonGroup grp;
+	ButtonGroup grp1;
 	String name;
 	String genre;
 	String availability;
+	String uName;
+	String pass;
+	String privilege;
 	
 	Connect c = new Connect();
+	Connect c1 = new Connect();
 	public AdminPanel() {
 		frm = new JFrame();
 		frm.pack();
@@ -130,6 +152,86 @@ public class AdminPanel extends JFrame implements ActionListener {
 		window.setVisible(true);
 	}
 	
+	public void removeBook() {
+		delBook = new JFrame();
+		delBook.pack();
+		delBook.setSize(270,120);
+		delBook.setTitle("Remove Book");
+		delBook.setLocationRelativeTo(null);
+		delBook.setResizable(false);
+		delBook.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+		panel1 = new JPanel();
+		
+		idRemove = new JLabel("Enter Book ID to be removed");
+		id = new JTextField();
+		id.setPreferredSize(new Dimension(200,24));
+		
+		deleteBook = new JButton("Delete Book");
+		deleteBook.addActionListener(this);
+		
+		panel1.add(idRemove);
+		panel1.add(id);
+		panel1.add(deleteBook);
+		delBook.getContentPane().add(panel1);
+		delBook.setVisible(true);
+	}
+	
+	public void removeAcct() {
+		wRemove = new JFrame();
+		wRemove.pack();
+		wRemove.setSize(270,120);
+		wRemove.setTitle("Remove Book");
+		wRemove.setLocationRelativeTo(null);
+		wRemove.setResizable(false);
+		wRemove.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+	}
+	
+	public void addAcctScreen() {
+		wAdd = new JFrame();
+		wAdd.pack();
+		wAdd.setSize(270,220);
+		wAdd.setTitle("Add Account");
+		wAdd.setLocationRelativeTo(null);
+		wAdd.setResizable(false);
+		wAdd.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+		
+		acct = new JPanel();
+		username = new JLabel("Enter the username you want to add");
+		addUser = new JTextField();
+		addUser.setPreferredSize(new Dimension(200,24));
+		password = new JLabel("Set user password");
+		pwd = new JPasswordField();
+		pwd.setPreferredSize(new Dimension(200,24));
+		
+		adminPowers = new JLabel("Aministrative Powers");
+		user = new JRadioButton();
+		user.setText("User");
+		librarian = new JRadioButton();
+		librarian.setText("Librarian");
+		admin = new JRadioButton();
+		admin.setText("Admin");
+		
+		grp1 = new ButtonGroup();
+		grp1.add(user);
+		grp1.add(librarian);
+		grp1.add(admin);
+		
+		acctAdd = new JButton("Add account");
+		acctAdd.addActionListener(this);
+		
+		acct.add(username);
+		acct.add(addUser);
+		acct.add(password);
+		acct.add(pwd);
+		acct.add(adminPowers);
+		acct.add(user);
+		acct.add(librarian);
+		acct.add(admin);
+		acct.add(acctAdd);
+		wAdd.getContentPane().add(acct);
+		wAdd.setVisible(true);
+	}
+	
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
@@ -139,7 +241,8 @@ public class AdminPanel extends JFrame implements ActionListener {
 		}
 		
 		if(e.getSource().equals(removeBook)) {
-			System.out.println("removeBook btn pressed");
+//			System.out.println("removeBook btn pressed");
+			removeBook();
 		}
 		
 		if(e.getSource().equals(assignBook)) {
@@ -150,9 +253,65 @@ public class AdminPanel extends JFrame implements ActionListener {
 			System.out.println("returnBook btn pressed");
 		}
 		
+		if(e.getSource().equals(deleteBook)) {
+			if(id.getText().equals("")) {
+				String err = "ID of the book to be deleted cannot be empty!";
+				JOptionPane.showMessageDialog(null, err);
+			}else {
+				c1.findBID(id.getText());
+				try {
+					if(!c1.rs.next()) {
+						String err = "Book ID not found!";
+						JOptionPane.showMessageDialog(null, err);
+					}else {
+						String success = "Book is deleted!";
+						JOptionPane.showMessageDialog(null,success);
+						c.deleteBook(id.getText());
+						id.setText("");
+					}
+				}catch(Exception a) {
+					a.printStackTrace();
+				}
+				
+				
+			}
+		}
+		
+		if(e.getSource().equals(acctAdd)) {
+			if(addUser.getText().equals("") || pwd.getText().equals("") || (!(admin.isSelected()||user.isSelected() || librarian.isSelected()))) {
+				String err = "Please fill all fields/select all options";
+				JOptionPane.showMessageDialog(null, err);
+			}else {
+				uName = addUser.getText();
+				pass = pwd.getText();
+				if(admin.isSelected()) {
+					privilege = "2";
+				}
+				
+				if(librarian.isSelected()) {
+					privilege = "1";
+				}
+				
+				if(user.isSelected()) {
+					privilege = "0";
+				}
+				
+				
+				c.addAccount(uName, pass, privilege);
+				String msg = "Account successfully added";
+				JOptionPane.showMessageDialog(null, msg);
+				addUser.setText("");
+				pwd.setText("");
+				grp1.clearSelection();
+				
+				
+			}
+		}
+		
 		if(e.getSource().equals(addAccount)) {
 			if(Login.privilege.equals("2")) {
-				System.out.println("Add account access granted!");
+//				System.out.println("Add account access granted!");
+				addAcctScreen();
 			}else {
 				String err = "Access Denied! Only Admins can create/delete accounts!";
 				JOptionPane.showMessageDialog(null, err);

@@ -61,10 +61,10 @@ public class Connect {
     	}
     }
     
-    public void deleteBook(String name) {
-    	query = "DELETE FROM books WHERE name = '"+name+"'";
+    public void deleteBook(String id) {
+    	query = "DELETE FROM books WHERE id = '"+id+"'";
     	try {
-    		executeQuery(query);
+    		stmt.executeUpdate(query);
     		
     	}catch(Exception e) {
     		e.printStackTrace();
@@ -83,6 +83,18 @@ public class Connect {
     	}
     }
     
+    public void addAccount(String username, String password, String privilege) {
+    	try {
+    		preparedStatement = con.prepareStatement("INSERT INTO users(username, password, privilege) VALUES(?,?,?)");
+    		preparedStatement.setString(1, username);
+    		preparedStatement.setString(2, password);
+    		preparedStatement.setString(3, privilege);
+    		preparedStatement.executeUpdate();
+    	}catch(Exception e) {
+    		e.printStackTrace();
+    	}
+    }
+    
     public void checkPrivilege(String num) {
     	query = "SELECT privilege FROM users WHERE id='"+num+"'";
     	try {
@@ -92,8 +104,8 @@ public class Connect {
     	}
     }
     
-    public void storeUsername(String username) {
-    	query = "SELECT username FROM users WHERE username= '"+username+"'";
+    public void findID(String username) {
+    	query = "SELECT id FROM users WHERE username='"+username+"'";
     	try {
     		executeQuery(query);
     	}catch(Exception e) {
@@ -101,8 +113,8 @@ public class Connect {
     	}
     }
     
-    public void findID(String username) {
-    	query = "SELECT id FROM users WHERE username='"+username+"'";
+    public void findBID(String id) {
+    	query = "SELECT id FROM books WHERE id ='"+id+"'";
     	try {
     		executeQuery(query);
     	}catch(Exception e) {
