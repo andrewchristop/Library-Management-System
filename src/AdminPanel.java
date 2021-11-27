@@ -13,6 +13,7 @@ public class AdminPanel extends JFrame implements ActionListener {
 	JTextField tf2;
 	JTextField id;
 	JTextField addUser;
+	JTextField removeAcct;
 	JPasswordField pwd;
 	JRadioButton available;
 	JRadioButton unavailable;
@@ -20,12 +21,14 @@ public class AdminPanel extends JFrame implements ActionListener {
 	JRadioButton user;
 	JRadioButton admin;
 	JPanel p;
+	JPanel p2;
 	JPanel panel1;
 	JLabel lbl;
 	JLabel lbl1;
 	JLabel lbl2;
 	JLabel lbl3;
 	JLabel idRemove;
+	JLabel idRem;
 	JLabel username;
 	JLabel password;
 	JLabel adminPowers;
@@ -35,6 +38,7 @@ public class AdminPanel extends JFrame implements ActionListener {
 	JButton addBook;
 	JButton btn;
 	JButton deleteBook;
+	JButton del;
 	JButton removeBook;
 	JButton assignBook;
 	JButton returnBook;
@@ -184,6 +188,23 @@ public class AdminPanel extends JFrame implements ActionListener {
 		wRemove.setLocationRelativeTo(null);
 		wRemove.setResizable(false);
 		wRemove.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+		p2 = new JPanel();
+		
+		idRem = new JLabel("Enter account ID to be removed");
+		removeAcct = new JTextField();
+		removeAcct.setPreferredSize(new Dimension(200,24));
+		
+		del = new JButton("Delete Account");
+		del.addActionListener(this);
+		
+		
+		p2.add(idRem);
+		p2.add(removeAcct);
+		p2.add(del);
+		
+		wRemove.getContentPane().add(p2);
+		wRemove.setVisible(true);
+		
 	}
 	
 	public void addAcctScreen() {
@@ -231,6 +252,8 @@ public class AdminPanel extends JFrame implements ActionListener {
 		wAdd.getContentPane().add(acct);
 		wAdd.setVisible(true);
 	}
+	
+	
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
@@ -321,13 +344,36 @@ public class AdminPanel extends JFrame implements ActionListener {
 		
 		if(e.getSource().equals(removeAccount)) {
 			if(Login.privilege.equals("2")) {
-				System.out.println("Remove account access granted!");
+				removeAcct();
 			}else {
 				String err = "Access Denied! Only Admins can create/delete accounts!";
 				JOptionPane.showMessageDialog(null, err);
 			}
 			
 //			System.out.println("removeAccount btn pressed");
+		}
+		
+		if(e.getSource().equals(del)) {
+			if(removeAcct.getText().equals("")) {
+				String err = "Field is empty!";
+				JOptionPane.showMessageDialog(null, err);
+			}else {
+				c1.findAcctID(removeAcct.getText());
+				try {
+					if(!c1.rs.next()) {
+						String err = "Account ID not found";
+						JOptionPane.showMessageDialog(null, err);
+					}else {
+						String success = "Account is deleted";
+						JOptionPane.showMessageDialog(null, success);
+						System.out.println(removeAcct.getText());
+						c.deleteAcct(removeAcct.getText());
+						removeAcct.setText("");
+					}
+				}catch(Exception y) {
+					y.printStackTrace();
+				}
+			}
 		}
 		
 		if(e.getSource().equals(btn)) {

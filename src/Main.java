@@ -28,13 +28,14 @@ public class Main extends JFrame implements ActionListener, MouseListener {
 	JButton searchBook;
 	JButton showAllBooks;
 	JButton adminPanel;
+	JButton showAcctInfo;
 	//Connect connect = new Connect();
 	public Main(){
 		
 		JFrame frm = new JFrame();
 		frm.pack();
 		frm.setLocationRelativeTo(null);
-        frm.setSize(300,150);
+        frm.setSize(300,155);
         frm.setTitle("Search for a book");
         frm.setDefaultCloseOperation(EXIT_ON_CLOSE);
         frm.setResizable(false);
@@ -58,6 +59,10 @@ public class Main extends JFrame implements ActionListener, MouseListener {
         adminPanel = new JButton("Admin Panel");
         query.add(adminPanel);
         adminPanel.addActionListener(this);
+        
+        showAcctInfo = new JButton("Show Account Info");
+        query.add(showAcctInfo);
+        
         
         frm.getContentPane().add(query);
 

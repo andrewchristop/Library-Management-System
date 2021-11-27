@@ -1,0 +1,3 @@
+interface AccountHolder{
+	void showInfo();
+}

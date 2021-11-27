@@ -71,6 +71,15 @@ public class Connect {
     	}
     }
     
+    public void deleteAcct(String id) {
+    	query = "DELETE FROM users WHERE id = '"+id+"'";
+    	try {
+    		stmt.executeUpdate(query);
+    	}catch(Exception e) {
+    		e.printStackTrace();
+    	}
+    }
+    
     public void addBook(String name, String genre, String availability) {
     	try {
     		preparedStatement = con.prepareStatement("INSERT INTO books(name, genre, availability) VALUES(?,?,?)");
@@ -106,6 +115,15 @@ public class Connect {
     
     public void findID(String username) {
     	query = "SELECT id FROM users WHERE username='"+username+"'";
+    	try {
+    		executeQuery(query);
+    	}catch(Exception e) {
+    		e.printStackTrace();
+    	}
+    }
+    
+    public void findAcctID(String id) {
+    	query = "SELECT id FROM users WHERE id='"+id+"'";
     	try {
     		executeQuery(query);
     	}catch(Exception e) {
