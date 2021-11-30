@@ -140,4 +140,14 @@ public class Connect {
     	}
     }
     
+    public void showAllUsers() {
+    	query = "SELECT id, username, privilege FROM users";
+    	try {
+    		executeQuery(query);
+    	}catch(Exception e) {
+    		e.printStackTrace();
+    	}
+    }
+    
+    
 }

@@ -5,6 +5,7 @@ import java.awt.event.*;
 import java.awt.Font;
 public class AdminPanel extends JFrame implements ActionListener {
 	JFrame frm;
+	JButton showAllUsers;
 	JFrame window;
 	JFrame delBook;
 	JFrame wAdd;
@@ -89,6 +90,9 @@ public class AdminPanel extends JFrame implements ActionListener {
 		removeAccount = new JButton("Remove Account");
 		removeAccount.setAlignmentX(Component.CENTER_ALIGNMENT);
 		removeAccount.addActionListener(this);
+		showAllUsers = new JButton("Show All Users");
+		showAllUsers.setAlignmentX(Component.CENTER_ALIGNMENT);
+		showAllUsers.addActionListener(this);
 		
 		p.add(lbl);
 		p.add(addBook);
@@ -97,6 +101,7 @@ public class AdminPanel extends JFrame implements ActionListener {
 		p.add(returnBook);
 		p.add(addAccount);
 		p.add(removeAccount);
+		p.add(showAllUsers);
 		
 //		p.setAlignmentX(Component.CENTER_ALIGNMENT);
 		
@@ -269,7 +274,7 @@ public class AdminPanel extends JFrame implements ActionListener {
 		}
 		
 		if(e.getSource().equals(assignBook)) {
-			System.out.println("assignBook btn pressed");
+			AssignBook a = new AssignBook();
 		}
 		
 		if(e.getSource().equals(returnBook)) {
@@ -400,6 +405,10 @@ public class AdminPanel extends JFrame implements ActionListener {
 				
 				
 			}
+		}
+		
+		if(e.getSource().equals(showAllUsers)) {
+			AllUsers a = new AllUsers();
 		}
 		
 	}
