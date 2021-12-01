@@ -104,6 +104,27 @@ public class Connect {
     	}
     }
     
+    public void popAssignBook(String name, String bookname, String returndate) {
+    	try {
+    		preparedStatement = con.prepareStatement("INSERT INTO assignedbooks(name, bookname, returndate) VALUES(?,?,?)");
+    		preparedStatement.setString(1, name);
+    		preparedStatement.setString(2, bookname);
+    		preparedStatement.setString(3, returndate);
+    		preparedStatement.executeUpdate();
+    	}catch(Exception e) {
+    		e.printStackTrace();
+    	}
+    }
+    
+    public void updateAvailability(String availability, String id) {
+    	try {
+    		query = "UPDATE books SET availability='"+availability+"' WHERE id='"+id+"'";
+    		stmt.executeUpdate(query);
+    	}catch(Exception e) {
+    		e.printStackTrace();
+    	}
+    }
+    
     public void checkPrivilege(String num) {
     	query = "SELECT privilege FROM users WHERE id='"+num+"'";
     	try {
@@ -115,6 +136,15 @@ public class Connect {
     
     public void findID(String username) {
     	query = "SELECT id FROM users WHERE username='"+username+"'";
+    	try {
+    		executeQuery(query);
+    	}catch(Exception e) {
+    		e.printStackTrace();
+    	}
+    }
+    
+    public void findAcctName(String id) {
+    	query = "SELECT username FROM users WHERE id='"+id+"'";
     	try {
     		executeQuery(query);
     	}catch(Exception e) {
@@ -142,6 +172,15 @@ public class Connect {
     
     public void showAllUsers() {
     	query = "SELECT id, username, privilege FROM users";
+    	try {
+    		executeQuery(query);
+    	}catch(Exception e) {
+    		e.printStackTrace();
+    	}
+    }
+    
+    public void findBookName(String id) {
+    	query = "SELECT name FROM books WHERE id='"+id+"'";
     	try {
     		executeQuery(query);
     	}catch(Exception e) {

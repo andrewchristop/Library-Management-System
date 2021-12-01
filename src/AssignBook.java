@@ -4,6 +4,8 @@ import java.awt.*;
 import java.awt.event.*;
 import java.awt.Font;
 public class AssignBook extends JFrame implements ActionListener {
+	String bookName;
+	String name;
 	JFrame window;
 	JPanel p;
 	JLabel lbl1;
@@ -13,6 +15,12 @@ public class AssignBook extends JFrame implements ActionListener {
 	JTextField bookID;
 	JTextField date;
 	JButton add;
+	Connect c = new Connect();
+	Connect c1 = new Connect();
+	Connect c2 = new Connect();
+	Connect c3 = new Connect();
+	Connect c4 = new Connect();
+	Connect c5 = new Connect();
 	
 	public AssignBook() {
 		window = new JFrame();
@@ -58,7 +66,40 @@ public class AssignBook extends JFrame implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
 		if(e.getSource().equals(add)) {
-			System.out.println("pressed");
+			if(bookID.getText().equals("") || userID.getText().equals("") || date.getText().equals("")) {
+				String err = "Please fill all fields/select all options";
+				JOptionPane.showMessageDialog(null, err);
+			}else {
+				c.findBID(bookID.getText());
+				c1.findAcctID(userID.getText());
+				try {
+					if(!c.rs.next() || !c1.rs.next()) {
+						String err = "One of the fields have been entered incorrectly";
+						JOptionPane.showMessageDialog(null, err);
+					}else {
+						c2.findBookName(bookID.getText());
+						while(c2.rs.next()) {
+							bookName = c2.rs.getString(1);
+						}
+						
+						c3.findAcctName(userID.getText());
+						while(c3.rs.next()) {
+							name = c3.rs.getString(1);
+						}
+						
+						c4.popAssignBook(name, bookName, date.getText());
+						c4.updateAvailability("Unavailable", bookID.getText());
+						String success = "Book has been assigned to user";
+						JOptionPane.showMessageDialog(null, success);
+						bookID.setText("");
+						userID.setText("");
+						date.setText("");
+						
+					}
+				}catch(Exception f) {
+					f.printStackTrace();
+				}
+			}
 		}
 		
 	}
