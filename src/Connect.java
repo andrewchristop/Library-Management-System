@@ -80,6 +80,15 @@ public class Connect {
     	}
     }
     
+    public void returnBook(String bookid) {
+    	query = "DELETE FROM assignedbooks WHERE bookid = '"+bookid+"'";
+    	try {
+    		stmt.executeUpdate(query);
+    	}catch(Exception e) {
+    		e.printStackTrace();
+    	}
+    }
+    
     public void addBook(String name, String genre, String availability) {
     	try {
     		preparedStatement = con.prepareStatement("INSERT INTO books(name, genre, availability) VALUES(?,?,?)");
@@ -104,12 +113,13 @@ public class Connect {
     	}
     }
     
-    public void popAssignBook(String name, String bookname, String returndate) {
+    public void popAssignBook(String name, String bookname, String returndate, String bookid) {
     	try {
-    		preparedStatement = con.prepareStatement("INSERT INTO assignedbooks(name, bookname, returndate) VALUES(?,?,?)");
+    		preparedStatement = con.prepareStatement("INSERT INTO assignedbooks(name, bookname, returndate, bookid) VALUES(?,?,?,?)");
     		preparedStatement.setString(1, name);
     		preparedStatement.setString(2, bookname);
     		preparedStatement.setString(3, returndate);
+    		preparedStatement.setString(4, bookid);
     		preparedStatement.executeUpdate();
     	}catch(Exception e) {
     		e.printStackTrace();
@@ -136,6 +146,15 @@ public class Connect {
     
     public void findID(String username) {
     	query = "SELECT id FROM users WHERE username='"+username+"'";
+    	try {
+    		executeQuery(query);
+    	}catch(Exception e) {
+    		e.printStackTrace();
+    	}
+    }
+    
+    public void showAssignedBooks() {
+    	query = "SELECT name, bookname, returndate, bookid FROM assignedbooks";
     	try {
     		executeQuery(query);
     	}catch(Exception e) {

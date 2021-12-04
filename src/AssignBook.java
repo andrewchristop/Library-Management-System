@@ -87,7 +87,7 @@ public class AssignBook extends JFrame implements ActionListener {
 							name = c3.rs.getString(1);
 						}
 						
-						c4.popAssignBook(name, bookName, date.getText());
+						c4.popAssignBook(name, bookName, date.getText(), bookID.getText());
 						c4.updateAvailability("Unavailable", bookID.getText());
 						String success = "Book has been assigned to user";
 						JOptionPane.showMessageDialog(null, success);

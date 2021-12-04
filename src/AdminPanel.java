@@ -1,8 +1,10 @@
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+
+import net.proteanit.sql.DbUtils;
+
 import java.awt.*;
 import java.awt.event.*;
-import java.awt.Font;
 public class AdminPanel extends JFrame implements ActionListener {
 	JFrame frm;
 	JButton showAllUsers;
@@ -10,6 +12,7 @@ public class AdminPanel extends JFrame implements ActionListener {
 	JFrame delBook;
 	JFrame wAdd;
 	JFrame wRemove;
+	JFrame wAss;
 	JTextField tf1;
 	JTextField tf2;
 	JTextField id;
@@ -35,6 +38,7 @@ public class AdminPanel extends JFrame implements ActionListener {
 	JLabel adminPowers;
 	JPanel p1;
 	JPanel acct;
+	JPanel ass;
 	JButton b1;
 	JButton addBook;
 	JButton btn;
@@ -46,6 +50,7 @@ public class AdminPanel extends JFrame implements ActionListener {
 	JButton addAccount;
 	JButton removeAccount;
 	JButton acctAdd;
+	JButton showAssBooks;
 	ButtonGroup grp;
 	ButtonGroup grp1;
 	String name;
@@ -54,6 +59,8 @@ public class AdminPanel extends JFrame implements ActionListener {
 	String uName;
 	String pass;
 	String privilege;
+	JTable assignedBooks;
+	JScrollPane j;
 	
 	Connect c = new Connect();
 	Connect c1 = new Connect();
@@ -93,6 +100,10 @@ public class AdminPanel extends JFrame implements ActionListener {
 		showAllUsers = new JButton("Show All Users");
 		showAllUsers.setAlignmentX(Component.CENTER_ALIGNMENT);
 		showAllUsers.addActionListener(this);
+		showAssBooks = new JButton("Show Assigned Books");
+		showAssBooks.setAlignmentX(Component.CENTER_ALIGNMENT);
+		showAssBooks.addActionListener(this);
+		
 		
 		p.add(lbl);
 		p.add(addBook);
@@ -102,6 +113,7 @@ public class AdminPanel extends JFrame implements ActionListener {
 		p.add(addAccount);
 		p.add(removeAccount);
 		p.add(showAllUsers);
+		p.add(showAssBooks);
 		
 //		p.setAlignmentX(Component.CENTER_ALIGNMENT);
 		
@@ -258,6 +270,37 @@ public class AdminPanel extends JFrame implements ActionListener {
 		wAdd.setVisible(true);
 	}
 	
+	public void showAssignedBooks() {
+		wAss = new JFrame();
+		wAss.pack();
+		wAss.setLocationRelativeTo(null);
+		wAss.setSize(1000,700);
+		wAss.setTitle("List of books in the library");
+		wAss.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+		
+		
+		try {
+			c.showAssignedBooks();
+			assignedBooks = new JTable();
+			assignedBooks.setModel(DbUtils.resultSetToTableModel(c.rs));
+		}catch(Exception z) {
+			z.printStackTrace();
+		}
+		
+		assignedBooks.setShowGrid(true);
+		assignedBooks.setShowVerticalLines(true);
+		j = new JScrollPane(assignedBooks);
+		j.setPreferredSize(new Dimension(950,600));
+		ass = new JPanel();
+		ass.setPreferredSize(new Dimension(800,600));
+		ass.add(j);
+		frm.add(ass);
+		
+		wAss.getContentPane().add(ass);
+		
+		wAss.setVisible(true);		
+	}
+	
 	
 	
 	@Override
@@ -278,7 +321,7 @@ public class AdminPanel extends JFrame implements ActionListener {
 		}
 		
 		if(e.getSource().equals(returnBook)) {
-			System.out.println("returnBook btn pressed");
+			ReturnBook r = new ReturnBook();
 		}
 		
 		if(e.getSource().equals(deleteBook)) {
@@ -409,6 +452,10 @@ public class AdminPanel extends JFrame implements ActionListener {
 		
 		if(e.getSource().equals(showAllUsers)) {
 			AllUsers a = new AllUsers();
+		}
+		
+		if(e.getSource().equals(showAssBooks)) {
+			showAssignedBooks();
 		}
 		
 	}
