@@ -119,6 +119,15 @@ public class Login extends JFrame implements ActionListener, MouseListener {
 							e1.printStackTrace();
 						}
 						
+						c.findAcctName(id);
+						try {
+							while(c.rs.next()) {
+								username = c.rs.getString(1);
+							}
+						}catch(Exception v) {
+							v.printStackTrace();
+						}
+						
 //						System.out.println(id);
 //						System.out.println(privilege);
 						

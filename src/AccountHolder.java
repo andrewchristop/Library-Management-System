@@ -1,3 +1,3 @@
 interface AccountHolder{
-	void showInfo();
+	String showInfo();
 }
