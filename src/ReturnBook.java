@@ -11,7 +11,10 @@ public class ReturnBook extends JFrame implements ActionListener {
 	JPanel p;
 	JButton b1;
 	
+	String availability;
+	
 	Connect c = new Connect();
+	Connect c1 = new Connect();
 	
 	public ReturnBook() {
 		window = new JFrame();
@@ -55,11 +58,23 @@ public class ReturnBook extends JFrame implements ActionListener {
 						String err = "Book ID not found!";
 						JOptionPane.showMessageDialog(null, err);
 					}else {
-						c.returnBook(bookID.getText());
-						c.updateAvailability("Available", bookID.getText());
-						String success = "Book returned!";
-						JOptionPane.showMessageDialog(null, success);
-						bookID.setText("");
+						c1.checkAvailability(bookID.getText());
+						while(c1.rs.next()) {
+							availability = c1.rs.getString(1);
+						}
+						
+						if(!availability.equals("Unavailable")) {
+							String err = "You can't return a book that is listed as available";
+							JOptionPane.showMessageDialog(null, err);
+						}else {
+							c.returnBook(bookID.getText());
+							c.updateAvailability("Available", bookID.getText());
+							String success = "Book returned!";
+							JOptionPane.showMessageDialog(null, success);
+							bookID.setText("");
+						}
+						
+						
 					}
 				}catch (Exception f) {
 					f.printStackTrace();

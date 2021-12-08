@@ -198,6 +198,16 @@ public class Connect {
     	}
     }
     
+    public void checkAvailability(String id) {
+    	query = "SELECT availability FROM books WHERE id='"+id+"'";
+    	try {
+    		executeQuery(query);    		
+    	}catch(Exception e) {
+    		e.printStackTrace();
+    	}
+    }
+    
+    
     public void findBookName(String id) {
     	query = "SELECT name FROM books WHERE id='"+id+"'";
     	try {

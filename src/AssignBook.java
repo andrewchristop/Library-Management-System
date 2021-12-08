@@ -2,10 +2,12 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.*;
+import java.sql.SQLException;
 import java.awt.Font;
 public class AssignBook extends JFrame implements ActionListener {
 	String bookName;
 	String name;
+	String availability;
 	JFrame window;
 	JPanel p;
 	JLabel lbl1;
@@ -72,29 +74,44 @@ public class AssignBook extends JFrame implements ActionListener {
 			}else {
 				c.findBID(bookID.getText());
 				c1.findAcctID(userID.getText());
+				c5.checkAvailability(bookID.getText());
+				
+				try {
+					while(c5.rs.next()) {
+						availability = c5.rs.getString(1);
+					}
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				
 				try {
 					if(!c.rs.next() || !c1.rs.next()) {
 						String err = "One of the fields have been entered incorrectly";
 						JOptionPane.showMessageDialog(null, err);
 					}else {
-						c2.findBookName(bookID.getText());
-						while(c2.rs.next()) {
-							bookName = c2.rs.getString(1);
+						if(!availability.equals("Available")) {
+							String err = "The book you wanted to assign is either unavailable or broken";
+							JOptionPane.showMessageDialog(null, err);
+						}else {
+							c2.findBookName(bookID.getText());
+							while(c2.rs.next()) {
+								bookName = c2.rs.getString(1);
+							}
+							
+							c3.findAcctName(userID.getText());
+							while(c3.rs.next()) {
+								name = c3.rs.getString(1);
+							}
+							
+							c4.popAssignBook(name, bookName, date.getText(), bookID.getText());
+							c4.updateAvailability("Unavailable", bookID.getText());
+							String success = "Book has been assigned to user";
+							JOptionPane.showMessageDialog(null, success);
+							bookID.setText("");
+							userID.setText("");
+							date.setText("");
 						}
-						
-						c3.findAcctName(userID.getText());
-						while(c3.rs.next()) {
-							name = c3.rs.getString(1);
-						}
-						
-						c4.popAssignBook(name, bookName, date.getText(), bookID.getText());
-						c4.updateAvailability("Unavailable", bookID.getText());
-						String success = "Book has been assigned to user";
-						JOptionPane.showMessageDialog(null, success);
-						bookID.setText("");
-						userID.setText("");
-						date.setText("");
-						
 					}
 				}catch(Exception f) {
 					f.printStackTrace();
