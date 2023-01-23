@@ -1,4 +1,4 @@
-#Library Management System
+# Library Management System
 
 The Library Management System can be used in a casual setting to keep track of book or video information all while using a simple to understand graphical user interface
 
